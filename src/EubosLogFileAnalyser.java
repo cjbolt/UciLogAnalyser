@@ -55,7 +55,8 @@ public class EubosLogFileAnalyser {
 		StringTokenizer tok = new StringTokenizer(line);
 		while (tok.hasMoreTokens()) {
 		    if (tok.nextToken().equals(find)) {
-		    	value = Integer.parseInt(tok.nextToken());
+		    	String[] str_value = tok.nextToken().split("<");
+		    	value = Integer.parseInt(str_value[0]);
 		    }
 		}
 		return value;

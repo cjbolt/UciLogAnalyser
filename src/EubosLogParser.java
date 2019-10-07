@@ -6,6 +6,7 @@ public class EubosLogParser {
   
 	public static void main(String[] args) {
 	    File f = new File("C:\\Users\\Chris\\lichess-bot-master");
+	    f = new File("C:\\Users\\c_j_b\\lichess-bot-master");
 
 	    FilenameFilter textFilter = new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
@@ -14,6 +15,7 @@ public class EubosLogParser {
 	    };
 
 	    File[] files = f.listFiles(textFilter);
+	    Long averageSpeed = (long)0;
 	    for (File file : files) {
 	        if (file.isFile()) {
 	        	EubosLogFileAnalyser lfa = new EubosLogFileAnalyser(file);
@@ -24,7 +26,9 @@ public class EubosLogParser {
 				}
 	        	System.out.println("Speed in nps: " + lfa.getSpeedMetrics());
 	        	System.out.println("Depth in ply: " + lfa.getDepthMetrics());
+	        	averageSpeed += lfa.getSpeedMetrics().getMean();
 	        }
 	    }
+	    System.out.println(String.format("Average speed over %d games is %d nps", files.length, averageSpeed/files.length));
 	}
 }
