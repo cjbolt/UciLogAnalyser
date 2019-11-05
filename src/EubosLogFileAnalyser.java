@@ -9,6 +9,7 @@ public class EubosLogFileAnalyser {
 	
 	static final String DEPTH = "depth";
 	static final String NPS = "nps";
+	static final String TIME = "time";
 	
 	private DepthAnalyser depth = new DepthAnalyser();
 	private Analyser speed = new Analyser();
@@ -31,7 +32,11 @@ public class EubosLogFileAnalyser {
 			    if (line.contains(DEPTH)) {
 			    	depth.addRecord(getDepth(line));
 			    } else if (line.contains(NPS)) {
-			    	speed.addRecord(getSpeed(line));
+			    	int theSpeed = getSpeed(line);
+			    	if (getTime(line) > 500 && theSpeed > 0) {
+			    		// consume early search hash hits which spoil the stats
+			    		speed.addRecord(theSpeed);
+			    	}
 			    } else {
 			    	// pass
 			    }
@@ -48,6 +53,10 @@ public class EubosLogFileAnalyser {
 	
 	private Integer getSpeed(String line) {
 		return getValue(NPS, line);
+	}
+	
+	private Integer getTime(String line) {
+		return getValue(TIME, line);
 	}
 	
 	private Integer getValue(String find, String line) {
