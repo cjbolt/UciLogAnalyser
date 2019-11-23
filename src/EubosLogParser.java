@@ -14,6 +14,7 @@ public class EubosLogParser {
 	        }
 	    };
 
+	    Analyser moves = new Analyser();
 	    File[] files = f.listFiles(textFilter);
 	    Long averageSpeed = (long)0;
 	    for (File file : files) {
@@ -27,8 +28,10 @@ public class EubosLogParser {
 	        	System.out.println("Speed in nps: " + lfa.getSpeedMetrics());
 	        	System.out.println("Depth in ply: " + lfa.getDepthMetrics());
 	        	averageSpeed += lfa.getSpeedMetrics().getMean();
+	        	moves.addRecord(lfa.getNumMovesInGame());
 	        }
 	    }
 	    System.out.println(String.format("Average speed over %d games is %d nps", files.length, averageSpeed/files.length));
+	    System.out.println("Move analysis:" + moves.analyse());
 	}
 }

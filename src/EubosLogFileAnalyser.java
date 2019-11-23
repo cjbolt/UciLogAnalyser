@@ -13,6 +13,7 @@ public class EubosLogFileAnalyser {
 	
 	private DepthAnalyser depth = new DepthAnalyser();
 	private Analyser speed = new Analyser();
+	private int moveCount = 0;
 	
 	public EubosLogFileAnalyser(File file) {
 		FileReader fr = null;
@@ -22,6 +23,7 @@ public class EubosLogFileAnalyser {
 			e.printStackTrace();
 		}
 			
+		
 		depth = new DepthAnalyser();
 		speed = new Analyser();
 		
@@ -31,9 +33,12 @@ public class EubosLogFileAnalyser {
 	    	while ((line = r.readLine()) != null) {
 			    if (line.contains(DEPTH)) {
 			    	depth.addRecord(getDepth(line));
-			    } else if (line.contains(NPS)) {
+			    } else if (line.contains("Best move")) {
+			    	moveCount++;
+			    }
+			    else if (line.contains(NPS)) {
 			    	int theSpeed = getSpeed(line);
-			    	if (getTime(line) > 500 && theSpeed > 0) {
+			    	if (getTime(line) > 600 && theSpeed > 10) {
 			    		// consume early search hash hits which spoil the stats
 			    		speed.addRecord(theSpeed);
 			    	}
@@ -57,6 +62,10 @@ public class EubosLogFileAnalyser {
 	
 	private Integer getTime(String line) {
 		return getValue(TIME, line);
+	}
+	
+	public int getNumMovesInGame() {
+		return moveCount;
 	}
 	
 	private Integer getValue(String find, String line) {
