@@ -10,6 +10,7 @@ public class EubosLogFileAnalyser {
 	static final String DEPTH = "depth";
 	static final String NPS = "nps";
 	static final String TIME = "time";
+	static final String MOVE_COUNT = "BestMove=";
 	
 	private DepthAnalyser depth = new DepthAnalyser();
 	private Analyser speed = new Analyser();
@@ -33,7 +34,7 @@ public class EubosLogFileAnalyser {
 	    	while ((line = r.readLine()) != null) {
 			    if (line.contains(DEPTH)) {
 			    	depth.addRecord(getDepth(line));
-			    } else if (line.contains("Best move")) {
+			    } else if (line.contains(MOVE_COUNT)) {
 			    	moveCount++;
 			    }
 			    else if (line.contains(NPS)) {
