@@ -1,3 +1,5 @@
+package com.github.cjbolt.EubosLogAnalyser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -5,15 +7,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+import com.github.cjbolt.EubosLogAnalyser.LazyAnalyser.LazyAnalysis;
+
 public class EubosLogFileAnalyser {
 	
 	static final String DEPTH = "depth";
 	static final String NPS = "nps";
+	static final String LAZY = "LazyStats";
 	static final String TIME = "time";
 	static final String MOVE_COUNT = "BestMove=";
 	
 	private DepthAnalyser depth = new DepthAnalyser();
 	private Analyser speed = new Analyser();
+	public LazyAnalyser lazy = new LazyAnalyser();
 	private int moveCount = 0;
 	
 	public EubosLogFileAnalyser(File file) {
@@ -43,6 +49,8 @@ public class EubosLogFileAnalyser {
 			    		// consume early search hash hits which spoil the stats
 			    		speed.addRecord(theSpeed);
 			    	}
+			    } else if (line.contains(LAZY)) {
+			    	lazy.addRecord(line);
 			    } else {
 			    	// pass
 			    }
@@ -87,5 +95,9 @@ public class EubosLogFileAnalyser {
 	
 	public Analysis getDepthMetrics() {
 		return depth.analyse();
+	}
+	
+	public LazyAnalysis getLazyAnalysis() {
+		return lazy.analyse();
 	}
 }

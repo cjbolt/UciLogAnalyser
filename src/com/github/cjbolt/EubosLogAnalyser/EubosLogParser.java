@@ -1,3 +1,5 @@
+package com.github.cjbolt.EubosLogAnalyser;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -6,7 +8,7 @@ public class EubosLogParser {
   
 	public static void main(String[] args) {
 	    File f = new File("C:\\Users\\Chris\\lichess-bot-master");
-	    f = new File("C:\\Users\\c_j_b\\lichess-bot-master");
+	    f = new File("C:\\Program Files (x86)\\Arena\\Engines\\EubosDev");
 
 	    FilenameFilter textFilter = new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
@@ -27,6 +29,9 @@ public class EubosLogParser {
 				}
 	        	System.out.println("Speed in nps: " + lfa.getSpeedMetrics());
 	        	System.out.println("Depth in ply: " + lfa.getDepthMetrics());
+	        	System.out.println(lfa.getLazyAnalysis());
+	        	System.out.println();
+	        	
 	        	averageSpeed += lfa.getSpeedMetrics().getMean();
 	        	moves.addRecord(lfa.getNumMovesInGame());
 	        }

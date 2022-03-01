@@ -1,8 +1,9 @@
+package com.github.cjbolt.EubosLogAnalyser;
 
 public class Analysis { 
-	private Integer max;
-	private Integer min;
-	private Integer mean;
+	protected Integer max;
+	protected Integer min;
+	protected Integer mean;
 
 	public Analysis(Integer max, Integer min, Integer mean) {
 		this.max = max;
