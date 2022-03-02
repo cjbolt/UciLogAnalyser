@@ -23,6 +23,7 @@ public class EubosLogParser {
 	    Float beta = 0.0f;
 	    Double worstErrorRate = 0.0d;
 	    Integer worstError = 0;
+	    Integer lazyErrorFileCount = 0;
 	    
 	    for (File file : files) {
 	        if (file.isFile()) {
@@ -44,6 +45,10 @@ public class EubosLogParser {
 	        	beta += lfa.getLazyAnalysis().betaCutOffs;
 	        	worstError = Math.max(worstError, lfa.getLazyAnalysis().getMax());
 	        	worstErrorRate = Math.max(worstErrorRate, lfa.getLazyAnalysis().failRate);
+	        	
+	        	if (lfa.getLazyAnalysis().getMax() != 0) {
+	        		lazyErrorFileCount++;
+	        	}
 	        }
 	    }
 	    
@@ -52,9 +57,10 @@ public class EubosLogParser {
 	    System.out.println(String.format(
 	    		"Overall lazy evaluation statistics: alpha cut %.1f%%, beta cut %.1f%%", 
 	    		alpha/files.length, beta/files.length));
-	    if (worstError != 0) {
+	    if (lazyErrorFileCount != 0) {
 	    	System.out.println(String.format(
 	    			"LAZY EVAL THRESHOLD WAS EXCEEDED! worst error %d centipawns, worst rate %.7f%%", worstError, worstErrorRate));
+	    	System.out.println(String.format("errors in %d files out of %d", lazyErrorFileCount, files.length));
 	    }
 	}
 }
