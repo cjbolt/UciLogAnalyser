@@ -7,8 +7,8 @@ import java.io.IOException;
 public class EubosLogParser {
   
 	public static void main(String[] args) {
-	    File f = new File("C:\\Users\\Chris\\lichess-bot-master");
-	    f = new File("C:\\Program Files (x86)\\Arena\\Engines\\EubosDev");
+		String filePath = System.getenv("EUBOS_CHESS_ENGINE_LOGS_FILEPATH");
+	    File f = new File(filePath);
 
 	    FilenameFilter textFilter = new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
