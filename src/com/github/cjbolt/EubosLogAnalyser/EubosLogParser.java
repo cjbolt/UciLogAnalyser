@@ -23,6 +23,8 @@ public class EubosLogParser {
 	    Float beta = 0.0f;
 	    Double worstErrorRate = 0.0d;
 	    Integer worstError = 0;
+	    Integer meanError = 0;
+	    Long sumMeanError = 0L;
 	    Integer lazyErrorFileCount = 0;
 	    
 	    for (File file : files) {
@@ -45,21 +47,24 @@ public class EubosLogParser {
 	        	beta += lfa.getLazyAnalysis().betaCutOffs;
 	        	worstError = Math.max(worstError, lfa.getLazyAnalysis().getMax());
 	        	worstErrorRate = Math.max(worstErrorRate, lfa.getLazyAnalysis().failRate);
+	        	sumMeanError += lfa.getLazyAnalysis().mean;
 	        	
 	        	if (lfa.getLazyAnalysis().getMax() != 0) {
 	        		lazyErrorFileCount++;
 	        	}
 	        }
 	    }
+	    long averageMeanError = sumMeanError / files.length;
 	    
 	    System.out.println(String.format("Average speed over %d games is %d nps", files.length, averageSpeed/files.length));
 	    System.out.println(String.format("Move analysis: %s", moves.analyse()));
 	    System.out.println(String.format(
-	    		"Overall lazy evaluation statistics: alpha cut %.1f%%, beta cut %.1f%%", 
-	    		alpha/files.length, beta/files.length));
+	    		"Overall lazy evaluation statistics: alpha cut %.1f%%, beta cut %.1f%%, average mean error %d", 
+	    		alpha/files.length, beta/files.length, averageMeanError));
 	    if (lazyErrorFileCount != 0) {
 	    	System.out.println(String.format(
-	    			"LAZY EVAL THRESHOLD WAS EXCEEDED! worst error %d centipawns, worst rate %.7f%%", worstError, worstErrorRate));
+	    			"LAZY EVAL THRESHOLD WAS EXCEEDED! worst error %d centipawns, worst rate %.7f%%",
+	    			worstError, worstErrorRate));
 	    	System.out.println(String.format("errors in %d files out of %d", lazyErrorFileCount, files.length));
 	    }
 	}
