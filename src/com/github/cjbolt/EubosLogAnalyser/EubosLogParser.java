@@ -23,7 +23,6 @@ public class EubosLogParser {
 	    Float beta = 0.0f;
 	    Double worstErrorRate = 0.0d;
 	    Integer worstError = 0;
-	    Integer meanError = 0;
 	    Long sumMeanError = 0L;
 	    Integer lazyErrorFileCount = 0;
 	    
