@@ -11,6 +11,7 @@ public class LazyAnalyser extends Analyser {
 	List<Integer> errorCount;
 	List<Integer> exceededCount;
 	List<Integer> MaxExceededValue;
+	List<String> MaxFen;
 	
 	public class LazyAnalysis extends Analysis{
 		public Float alphaCutOffs;
@@ -37,6 +38,7 @@ public class LazyAnalyser extends Analyser {
 		errorCount = new ArrayList<Integer>();
 		exceededCount = new ArrayList<Integer>();
 		MaxExceededValue = new ArrayList<Integer>();
+		MaxFen = new ArrayList<String>();
 	}
 	
 	public void addRecord(String record) {
@@ -62,6 +64,9 @@ public class LazyAnalyser extends Analyser {
 			} else if (str.contains("maxExceeded=")) {
 				temp = str.split("=");
 				MaxExceededValue.add(Integer.valueOf(temp[1]));
+			} else if (str.contains("maxFen=")) {
+				temp = str.split("=");
+				MaxFen.add(temp[1]);
 			} else {
 				assert false : "Unknown token in LazyStatistics parsing.";
 			}
