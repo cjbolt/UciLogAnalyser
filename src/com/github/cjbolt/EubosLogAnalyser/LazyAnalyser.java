@@ -45,23 +45,27 @@ public class LazyAnalyser extends Analyser {
 		String [] tokens = record.split("[, <>]+");
 		for (String str : tokens) {
 			String temp[] = null;
-			// "LazyStats A=%d B=%d nodes=%d failSum=%d exceededCount=%d maxExceeded=%d"
+			// "LazyStats A=%d B=%d maxLazyThresh=%d nodes=%d failSum=%d overflowed=%s maxOverLazy=%d maxOverLazyN=%d maxFen=%s"
 			if (str.contains("A=")) {
 				temp = str.split("=");
 				alpha.add(Long.valueOf(temp[1]));
 			} else if (str.contains("B=")) {
 				temp = str.split("=");
 				beta.add(Long.valueOf(temp[1]));
+			} else if (str.contains("maxLazyThresh=")) {
+				// Ignore
 			} else if (str.contains("nodes=")) {
 				temp = str.split("=");
 				nodes.add(Long.valueOf(temp[1]));
+			} else if (str.contains("overflowed=")) {
+				// Ignore
 			} else if (str.contains("failSum=")) {
 				temp = str.split("=");
 				errorCount.add(Integer.valueOf(temp[1]));
-			} else if (str.contains("exceededCount=")) {
+			} else if (str.contains("maxOverLazyN=")) {
 				temp = str.split("=");
 				exceededCount.add(Integer.valueOf(temp[1]));
-			} else if (str.contains("maxExceeded=")) {
+			} else if (str.contains("maxOverLazy=")) {
 				temp = str.split("=");
 				MaxExceededValue.add(Integer.valueOf(temp[1]));
 			} else if (str.contains("maxFen=")) {
