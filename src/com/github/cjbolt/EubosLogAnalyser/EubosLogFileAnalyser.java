@@ -83,7 +83,11 @@ public class EubosLogFileAnalyser {
 		while (tok.hasMoreTokens()) {
 		    if (tok.nextToken().equals(find)) {
 		    	String[] str_value = tok.nextToken().split("<");
-		    	value = Integer.parseInt(str_value[0]);
+		    	try {
+		    		value = Integer.parseInt(str_value[0]);
+		    	} catch (NumberFormatException e) {
+		    		System.out.println(line);
+		    	}
 		    }
 		}
 		return value;
